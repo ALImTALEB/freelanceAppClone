@@ -27,7 +27,7 @@ const connect = async () => {
 
 app.use(express.json())
 app.use(cors({
-  origin: ["http://localhost:5173", "https://freelance-app-clone-emi2.vercel.app"],
+  origin: "https://freelance-app-clone-emi2.vercel.app",
   credentials: true
   }))
 app.use(cookieParser())
