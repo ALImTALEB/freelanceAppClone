@@ -16,6 +16,15 @@ import cors from "cors";
 const app = express();
 dotenv.config();
 
+// Add CORS middleware
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "https://freelance-app-clone-emi2.vercel.app");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Access-Control-Allow-Credentials", true);
+  next();
+});
+
 const connect = async () => {
   try {
     await mongoose.connect(process.env.MONGO);
@@ -25,12 +34,8 @@ const connect = async () => {
   }
 };
 
-app.use(express.json())
-app.use(cors({
-  origin: "https://freelance-app-clone-emi2.vercel.app",
-  credentials: true
-  }))
-app.use(cookieParser())
+app.use(express.json());
+app.use(cookieParser());
 
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
@@ -40,12 +45,11 @@ app.use("/api/orders", orderRoute);
 app.use("/api/conversations", conversationRoute);
 app.use("/api/messages", messageRoute);
 
-app.use( (err, req, res, next ) => {
-  const errorStatus = err.status || 500
-  const errorMessage = err.message || "something went wrong!"
-
-  return res.status(errorStatus).send(errorMessage)
-})
+app.use((err, req, res, next) => {
+  const errorStatus = err.status || 500;
+  const errorMessage = err.message || "something went wrong!";
+  return res.status(errorStatus).send(errorMessage);
+});
 
 app.listen(3000, () => {
   connect();
