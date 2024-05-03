@@ -25,12 +25,13 @@ const connect = async () => {
   }
 };
 
-app.use(express.json())
-app.use(cors({
-  origin: "https://freelance-app-clone-emi2.vercel.app",
-  credentials: true
-  }))
-app.use(cookieParser())
+app.use(express.json());
+app.use(
+  cors({
+    origin: "https://freelance-app-clone-emi2.vercel.app",
+  })
+);
+app.use(cookieParser());
 
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
@@ -40,12 +41,12 @@ app.use("/api/orders", orderRoute);
 app.use("/api/conversations", conversationRoute);
 app.use("/api/messages", messageRoute);
 
-app.use( (err, req, res, next ) => {
-  const errorStatus = err.status || 500
-  const errorMessage = err.message || "something went wrong!"
+app.use((err, req, res, next) => {
+  const errorStatus = err.status || 500;
+  const errorMessage = err.message || "something went wrong!";
 
-  return res.status(errorStatus).send(errorMessage)
-})
+  return res.status(errorStatus).send(errorMessage);
+});
 
 app.listen(3000, () => {
   connect();
